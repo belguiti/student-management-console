@@ -1,4 +1,93 @@
 package com.team.studentapp.view;
 
+
+
+/**
+ * Author : BELGUITI
+ * Classe ConsoleMenu : interface console pour gérer les étudiants et leurs cours.
+ */
 public class ConsoleMenu {
+
+
+    /**
+     * Lance le menu principal.
+     */
+    public void start() {
+        int choice;
+
+        do {
+            System.out.println("\n===== STUDENT MANAGEMENT MENU =====");
+            System.out.println("1. Ajouter un étudiant");
+            System.out.println("2. Afficher tous les étudiants");
+            System.out.println("3. Modifier un étudiant");
+            System.out.println("4. Supprimer un étudiant");
+            System.out.println("5. Ajouter un cours et une note");
+            System.out.println("6. Afficher la moyenne d’un étudiant");
+            System.out.println("7. Meilleur étudiant");
+            System.out.println("8. Étudiants en échec");
+            System.out.println("9. Quitter");
+            System.out.println("===================================");
+            System.out.print("Entrez votre choix : ");
+
+            choice = getIntInput();
+
+            switch (choice) {
+                case 1 -> addStudent();
+                case 2 -> showAllStudents();
+                case 3 -> updateStudent();
+                case 4 -> deleteStudent();
+                case 5 -> addCourseToStudent();
+                case 6 -> showAverage();
+                case 7 -> showBestStudent();
+                case 8 -> showFailingStudents();
+                case 9 -> System.out.println("👋 Merci d'avoir utilisé l'application !");
+                default -> System.out.println("❌ Choix invalide. Réessayez.");
+            }
+
+        } while (choice != 9);
+    }
+
+    // ------------------ ACTIONS MENU ------------------
+
+    private void addStudent() {
+
+    }
+
+    private void showAllStudents() {
+
+    }
+
+    private void updateStudent() {
+
+    }
+
+    private void deleteStudent() {
+
+    }
+
+    private void addCourseToStudent() {
+
+    }
+
+    private void showAverage() {
+
+    }
+
+    private void showBestStudent() {
+
+    }
+
+    private void showFailingStudents() {
+
+    }
+
+    // ------------------ UTILITAIRES ------------------
+
+    private int getIntInput() {
+      return 0;
+    }
+
+    private double getDoubleInput() {
+        return 0;
+    }
 }
