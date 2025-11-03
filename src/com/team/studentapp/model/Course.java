@@ -36,6 +36,9 @@ public class Course {
     public void setGrade(double grade) {
         this.grade = grade;
     }
+    public void setGradetest(double grade) {
+        this.grade = grade;
+    }
 
     // Affichage formaté (ex: Math: 15.0)
     @Override
