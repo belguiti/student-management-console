@@ -84,7 +84,7 @@ public class ConsoleMenu {
     // ------------------ UTILITAIRES ------------------
 
     private int getIntInput() {
-      return 0;
+        return 0;
     }
 
     private double getDoubleInput() {
