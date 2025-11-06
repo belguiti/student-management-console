@@ -7,15 +7,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileService {
+public class FileService implements  FileServiceInt {
 
     private String filePath;
 
-    public FileService(String filePath) {
-        this.filePath = filePath;
+    public FileService() {
+        this.filePath = "resources/students.csv";
     }
 
-    // --- Sauvegarde un seul étudiant ---
+    //  Sauvegarde un seul étudiant 
     public void saveStudent(Student student) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) { // true = append
             writer.write(studentToCsv(student));
@@ -26,9 +26,11 @@ public class FileService {
         }
     }
 
-    // --- Sauvegarde plusieurs étudiants ---
-    public void saveStudents(List<Student> students) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+    //  Sauvegarde plusieurs étudiants 
+    // Si append = true → ajoute à la fin du fichier
+    // Si append = false → réécrit tout le fichier
+    public void saveStudents(List<Student> students,boolean append) { // réécrit tout le fichier append=false
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath,append))) {
             for (Student s : students) {
                 writer.write(studentToCsv(s));
                 writer.newLine();
@@ -38,8 +40,11 @@ public class FileService {
             System.err.println(" Erreur lors de l'enregistrement : " + e.getMessage());
         }
     }
+    public void saveStudents(List<Student> students){ // ajoute à la fin du fichier
+        saveStudents(students,true);
+    }
 
-    // --- Convertit un étudiant en ligne CSV ---
+    //  Convertit un étudiant en ligne CSV 
     private String studentToCsv(Student student) {
         // Format : id,name,email,course1:grade1;course2:grade2
         StringBuilder sb = new StringBuilder();
@@ -57,7 +62,7 @@ public class FileService {
         return sb.toString();
     }
 
-    // --- Lecture du fichier CSV et reconstruction des étudiants ---
+    //  Lecture du fichier CSV et reconstruction des étudiants 
     public List<Student> loadStudents() {
         List<Student> students = new ArrayList<>();
 
@@ -73,7 +78,6 @@ public class FileService {
         return students;
     }
 
-    // --- Convertit une ligne CSV en Student ---
     private Student csvToStudent(String line) {
         // Format : id,name,email,course1:grade1;course2:grade2
         String[] parts = line.split(",", 4);
@@ -106,5 +110,39 @@ public class FileService {
         Student s=new Student(id,name,email);
         s.setCourses(courses);
         return s;
+    }
+
+    public void updateStudent(Student student){
+        try {
+            List<Student> existingStudent=loadStudents();
+            boolean isExist=false;
+            for(Student s:existingStudent) {
+                if (s.getId() == student.getId()){
+                    s.setName(student.getName());
+                    s.setEmail(student.getEmail());
+                    s.setCourses(student.getCourses());
+                    isExist=true;
+                }
+            }
+            if(isExist){
+                saveStudents(existingStudent,false);
+                System.out.println("Student Exist");
+            }
+        }catch (Exception e){
+            System.out.println("Erreur update");
+        }
+    }
+
+    public void deleteStudent(int idStudent){
+        try {
+            List<Student> existingStudent=loadStudents();
+            boolean isRemoved=existingStudent.removeIf(s -> s.getId()==idStudent);
+            if(isRemoved){
+                saveStudents(existingStudent,false);
+                System.out.println("Student Exist");
+            }
+        }catch (Exception e){
+            System.out.println("Erreur update");
+        }
     }
 }
