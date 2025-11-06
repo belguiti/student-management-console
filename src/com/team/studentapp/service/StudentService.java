@@ -83,5 +83,20 @@ public class StudentService {
         }
     }
 
+    public double calculateAVGStudent(Student student){
+        try {
+            if(student.getCourses().isEmpty()) {
+                System.out.println("No courses pour etudient : " + student.getName());
+                return 0;
+            }
+            return student.calculateAverage();
+        } catch (Exception e) {
+            System.err.println("Erreur calculateAVGStudent : "+e.getMessage());
+            return 0;
+        }
+    }
+
+
+
 
 }

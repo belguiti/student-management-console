@@ -40,18 +40,7 @@ public class StudentController {
         studentService.updateStudent(sc,id);
 
     }
-    public void getStudentbyId(){
-        System.out.println("\n Entrez l'id de l'etudiant");
-
-    }
-    public void deleteStudent(){
-        System.out.println("\n Entrez l'id de l'etudiant a supprimer");
-        int id=Integer.parseInt(sc.nextLine());
-        studentService.deleteStudent(id);
-    }
-    public void addCoursesToStudent() {
-        System.out.println("\n===== AJOUT DE COURS À UN ÉTUDIANT =====");
-
+    public Student getStudentbyId(){
         Student foundStudent = null;
         int idStudent;
 
@@ -59,33 +48,51 @@ public class StudentController {
         while (true) {
             System.out.print(" Entrez l'ID de l'étudiant : ");
             while (!sc.hasNextInt()) { // Vérifie que l'entrée est bien un entier
-                System.out.print("⚠ Veuillez entrer un ID valide (nombre) : ");
+                System.out.print(" Veuillez entrer un ID valide (nombre) : ");
                 sc.next();
             }
             idStudent = sc.nextInt();
             sc.nextLine();
 
             // Rechercher l'étudiant
-            List<Student> students = studentService.getAllStudents();
-            for (Student s : students) {
-                if (s.getId() == idStudent) {
-                    foundStudent = s;
-                    break;
-                }
-            }
+            foundStudent=studentService.getStudentbyId(idStudent);
 
             if (foundStudent != null) {
                 System.out.println(" Étudiant trouvé : " + foundStudent.getName() + " (" + foundStudent.getEmail() + ")");
-                break;
+                return  foundStudent;
             } else {
                 System.out.print(" Aucun étudiant trouvé avec l'ID " + idStudent + ". Voulez-vous réessayer ? (o/n) : ");
                 String retry = sc.nextLine().trim().toLowerCase();
                 if (!retry.equals("o")) {
                     System.out.println(" Retour au menu principal...");
-                    return;
+                    return foundStudent;
                 }
             }
         }
+
+    }
+    public void deleteStudent(){
+        System.out.println("\n Entrez l'id de l'etudiant a supprimer");
+        int id=Integer.parseInt(sc.nextLine());
+        studentService.deleteStudent(id);
+    }
+
+    public void calculateAVGStudent(){
+        Student student=getStudentbyId();
+        if (student == null) {
+            System.out.println("Aucun étudiant sélectionné. Moyenne non calculée.");
+            return;
+        }
+        System.out.println("Moyenne des notes etudiant "+student.getName()+" : "+studentService.calculateAVGStudent(student));
+    }
+
+    public void addCoursesToStudent() {
+        System.out.println("\n===== AJOUT DE COURS À UN ÉTUDIANT =====");
+
+        Student foundStudent=getStudentbyId();
+
+        if(foundStudent==null)
+            return;
 
         // --- Saisie des cours ---
         List<Course> newCourses = new ArrayList<>();
