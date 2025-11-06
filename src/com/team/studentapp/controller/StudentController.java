@@ -1,8 +1,10 @@
 package com.team.studentapp.controller;
 
+import com.team.studentapp.model.Course;
 import com.team.studentapp.model.Student;
 import com.team.studentapp.service.StudentService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -46,6 +48,81 @@ public class StudentController {
         System.out.println("\n Entrez l'id de l'etudiant a supprimer");
         int id=Integer.parseInt(sc.nextLine());
         studentService.deleteStudent(id);
+    }
+    public void addCoursesToStudent() {
+        System.out.println("\n===== AJOUT DE COURS À UN ÉTUDIANT =====");
+
+        Student foundStudent = null;
+        int idStudent;
+
+        //  Boucle pour redemander l'ID si non trouvé
+        while (true) {
+            System.out.print(" Entrez l'ID de l'étudiant : ");
+            while (!sc.hasNextInt()) { // Vérifie que l'entrée est bien un entier
+                System.out.print("⚠ Veuillez entrer un ID valide (nombre) : ");
+                sc.next();
+            }
+            idStudent = sc.nextInt();
+            sc.nextLine();
+
+            // Rechercher l'étudiant
+            List<Student> students = studentService.getAllStudents();
+            for (Student s : students) {
+                if (s.getId() == idStudent) {
+                    foundStudent = s;
+                    break;
+                }
+            }
+
+            if (foundStudent != null) {
+                System.out.println(" Étudiant trouvé : " + foundStudent.getName() + " (" + foundStudent.getEmail() + ")");
+                break;
+            } else {
+                System.out.print(" Aucun étudiant trouvé avec l'ID " + idStudent + ". Voulez-vous réessayer ? (o/n) : ");
+                String retry = sc.nextLine().trim().toLowerCase();
+                if (!retry.equals("o")) {
+                    System.out.println(" Retour au menu principal...");
+                    return;
+                }
+            }
+        }
+
+        // --- Saisie des cours ---
+        List<Course> newCourses = new ArrayList<>();
+        String choice;
+
+        do {
+            System.out.print("\n Entrez le nom du cours : ");
+            String courseName = sc.nextLine();
+
+            double grade = -1;
+            //  Validation de la note (entre 0 et 20)
+            while (true) {
+                System.out.print(" Entrez la note du cours (0-20) : ");
+                if (sc.hasNextDouble()) {
+                    grade = sc.nextDouble();
+                    sc.nextLine();
+                    if (grade >= 0 && grade <= 20) {
+                        break;
+                    } else {
+                        System.out.println(" La note doit être comprise entre 0 et 20 !");
+                    }
+                } else {
+                    System.out.println(" Veuillez entrer une valeur numérique valide !");
+                    sc.next();
+                }
+            }
+
+            newCourses.add(new Course(courseName, grade));
+
+            System.out.print("Voulez-vous ajouter un autre cours ? (o/n) : ");
+            choice = sc.nextLine().trim().toLowerCase();
+
+        } while (choice.equals("o"));
+
+        // --- Enregistrement ---
+        studentService.addCourseToStudent(foundStudent, newCourses);
+        System.out.println("\n Les cours ont été ajoutés avec succès à l'étudiant : " + foundStudent.getName());
     }
 
 }

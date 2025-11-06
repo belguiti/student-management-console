@@ -1,5 +1,6 @@
 package com.team.studentapp.service;
 
+import com.team.studentapp.model.Course;
 import com.team.studentapp.model.Student;
 
 import java.util.ArrayList;
@@ -65,6 +66,21 @@ public class StudentService {
          }
         System.out.println("Aucun etudiant a supprimmer ");
          return false;
+    }
+
+    public void addCourseToStudent(Student student,List<Course> newCourses){
+        try {
+            List<Course> existingCourses = student.getCourses();
+            if (existingCourses == null) {
+                existingCourses = new ArrayList<>();
+            }
+            existingCourses.addAll(newCourses); // ajouter les nouveau courser a les enciens courses
+            student.setCourses(existingCourses);
+            student.setCourses(existingCourses);
+            fileService.updateStudent(student);
+        }catch (Exception e){
+            System.err.println("Erreur addCourseToStudent :"+e.getMessage());
+        }
     }
 
 

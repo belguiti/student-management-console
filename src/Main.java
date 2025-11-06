@@ -12,8 +12,9 @@ import com.team.studentapp.controller.StudentController;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-        FileService s=new FileService();
-        s.deleteStudent(3);
+
+        StudentController c=new StudentController();
+        c.addCoursesToStudent();
 
 
 //        StudentController controller = new StudentController();
