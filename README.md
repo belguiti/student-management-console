@@ -54,3 +54,42 @@ Stockage dans students.txt ou students.json
 Menu interactif utilisant System.out.println et Scanner
 
 Navigation simple et intuitive
+
+# Student Management Console
+
+Une application console pour gérer les étudiants et leurs cours.
+
+---
+
+## Prérequis
+
+- Java JDK 17 ou supérieur installé
+- Git (pour cloner le dépôt)
+- IDE (optionnel) : IntelliJ, Eclipse, VS Code, etc.
+
+---
+
+## Cloner le dépôt
+
+```bash
+git clone https://github.com/<votre-utilisateur>/<nom-du-repo>.git
+cd <nom-du-repo>
+Compilation et exécution
+Option 1 : Depuis un IDE
+Ouvrir le projet dans votre IDE favori (IntelliJ, Eclipse, VS Code, etc.)
+
+Compiler le projet (Build Project)
+
+Exécuter la classe principale : Main.java
+
+Option 2 : Depuis la ligne de commande
+Compiler le projet :
+
+bash
+Copy code
+javac -d out/production/student-management-console src/**/*.java
+Exécuter le programme :
+
+bash
+Copy code
+java -cp out/production/student-management-console Main
