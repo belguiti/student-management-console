@@ -12,9 +12,7 @@ import com.team.studentapp.controller.StudentController;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-
-        StudentController c=new StudentController();
-        c.calculateAVGStudent();
-
+        ConsoleMenu menu=new ConsoleMenu();
+        menu.start();
     }
 }

@@ -1,6 +1,9 @@
 package com.team.studentapp.view;
 
 
+import com.team.studentapp.controller.StudentController;
+
+import java.util.Scanner;
 
 /**
  * Author : BELGUITI
@@ -8,6 +11,7 @@ package com.team.studentapp.view;
  */
 public class ConsoleMenu {
 
+    StudentController controller=new StudentController();
 
     /**
      * Lance le menu principal.
@@ -50,41 +54,42 @@ public class ConsoleMenu {
     // ------------------ ACTIONS MENU ------------------
 
     private void addStudent() {
-
+        controller.addStudent();
     }
 
     private void showAllStudents() {
-
+        controller.showAllStudents();
     }
 
     private void updateStudent() {
-
+        controller.updateStudent();
     }
 
     private void deleteStudent() {
-
+        controller.deleteStudent();
     }
 
     private void addCourseToStudent() {
-
+        controller.addCoursesToStudent();
     }
 
     private void showAverage() {
-
+        controller.calculateAVGStudent();
     }
 
     private void showBestStudent() {
-
+        controller.bestStudent();
     }
 
     private void showFailingStudents() {
-
+        controller.failingStudents();
     }
 
     // ------------------ UTILITAIRES ------------------
 
     private int getIntInput() {
-        return 0;
+        Scanner sc = new Scanner(System.in);
+        return sc.nextInt();
     }
 
     private double getDoubleInput() {
