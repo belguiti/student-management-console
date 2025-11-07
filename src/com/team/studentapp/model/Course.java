@@ -1,5 +1,7 @@
 package com.team.studentapp.model;
 
+import java.util.Objects;
+
 /**
  * Author : BELGUITI
  * Représente un cours suivi par un étudiant.
@@ -44,5 +46,18 @@ public class Course {
     @Override
     public String toString() {
         return name + ": " + grade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Double.compare(course.grade, grade) == 0 && Objects.equals(name, course.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, grade);
     }
 }

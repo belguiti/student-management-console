@@ -78,11 +78,11 @@ public class ConsoleMenu {
     }
 
     private void showBestStudent() {
-        controller.bestStudent();
+        controller.displayBestStudent();
     }
 
     private void showFailingStudents() {
-        controller.failingStudents();
+        controller.displayFailingStudents();
     }
 
     // ------------------ UTILITAIRES ------------------

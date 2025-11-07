@@ -2,6 +2,7 @@ package com.team.studentapp.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Author : BELGUITI
@@ -96,5 +97,18 @@ public class Student {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id && Objects.equals(name, student.name) && Objects.equals(email, student.email) && Objects.equals(courses, student.courses);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, courses);
     }
 }

@@ -29,14 +29,12 @@ public class StudentController {
         studentService.addStudent(student);
         System.out.println("Étudiant ajouté avec succès !");
     }
-
     public void showAllStudents(){
         System.out.println("\n Liste des etudiants");
-       for(Student s: studentService.getAllStudents()){
-           System.out.println(s);
-       }
+        for(Student s: studentService.getAllStudents()){
+            System.out.println(s);
+        }
     }
-
     public void updateStudent(){
         System.out.println("\n Entrez l'id de l'etudiant");
         int id=Integer.parseInt(sc.nextLine());
@@ -88,7 +86,7 @@ public class StudentController {
             System.out.println("Aucun étudiant sélectionné. Moyenne non calculée.");
             return;
         }
-        System.out.println("Moyenne des notes etudiant "+student.getName()+" : "+studentService.calculateAVGStudent(student));
+        System.out.println("Moyenne des notes etudiant "+student.getName()+" : "+studentService.calculateAverage(student));
     }
 
     public void addCoursesToStudent() {
@@ -136,24 +134,57 @@ public class StudentController {
         studentService.addCourseToStudent(foundStudent, newCourses);
         System.out.println("\n Les cours ont été ajoutés avec succès à l'étudiant : " + foundStudent.getName());
     }
+    public void showAverage() {
+        System.out.print("\n➡️ Entrez l'ID de l'étudiant : ");
+        int id = Integer.parseInt(sc.nextLine());
 
-    public void bestStudent(){
-        Student bestStudent=studentService.bestStudent();
-        System.out.println("Meilleur étudiant : " + (bestStudent != null ? bestStudent.getName() : "aucun") + " avec moyenne = " + bestStudent);
-    }
 
-    public void failingStudents() {
-        List<Student> failing = studentService.failingStudents();
+        Student student = studentService.getStudentbyId(id);
 
-        if (failing.isEmpty()) {
-            System.out.println("Aucun étudiant en échec");
-        } else {
-            System.out.println("Liste des étudiants en échec :");
-            for (Student s : failing) {
-                System.out.println("- " + s.getName() + " | Moyenne : " + s.calculateAverage());
-            }
+        if (student == null) {
+            System.out.println("❌ Aucun étudiant trouvé avec cet ID.");
+            return;
         }
+
+
+        double average = studentService.calculateAverage(student);
+
+        System.out.println("La moyenne de " + student.getName() + " est : " + String.format("%.2f", average));
     }
+    public void displayAllAverages() {
+        System.out.println("\n");
+        System.out.println("LISTE DES MOYENNES DES ÉTUDIANTS");
+        System.out.println("==============================");
+
+        studentService.displayAllAverages();
+
+        System.out.println("==============================");
+
+    }
+
+    // 🔹 Afficher le meilleur étudiant
+    public void displayBestStudent() {
+        System.out.println("\n");
+        System.out.println("Meilleur étudiant");
+        System.out.println("==============================");
+
+        studentService.displayBestStudent();
+
+        System.out.println("==============================");
+
+    }
+
+    // 🔹 Afficher les étudiants en échec (moyenne < 10)
+    public void displayFailingStudents() {
+        System.out.println("\n==============================");
+        System.out.println(" Étudiants en échec  (moyenne < 10)");
+        System.out.println("==============================");
+
+        studentService.displayFailingStudents();
+
+        System.out.println("==============================");
+    }
+
 
 
 }
