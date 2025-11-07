@@ -5,6 +5,7 @@ import com.team.studentapp.model.Student;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FileService implements  FileServiceInt {
@@ -91,39 +92,59 @@ public class FileService implements  FileServiceInt {
     }
 
     private Student csvToStudent(String line) {
-        // Format : id,name,email,course1:grade1;course2:grade2
-
-        String[] parts = line.split(",", 4);
-        System.out.println("parts : "+parts);
-        if(parts.length==0)
+        // Format attendu : id,name,email,course1:grade1;course2:grade2
+        if (line == null || line.trim().isEmpty()) {
+            System.out.println("⚠️ Ligne vide ignorée.");
             return null;
-        String name = parts[1];
-        String email = parts[2];
-        int id;
-        try{
-            id = Integer.parseInt(parts[0]);
-        }catch (Exception e){
-            id=0;
         }
 
+        // Séparer les 4 premiers champs seulement (pour ne pas couper les cours)
+        String[] parts = line.split(",", 4);
+       // System.out.println("parts : " + Arrays.toString(parts)); // ✅ affichage lisible
+
+        if (parts.length < 3) {
+            System.out.println("❌ Ligne invalide : " + line);
+            return null;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(parts[0].trim());
+        } catch (NumberFormatException e) {
+            System.out.println("⚠️ ID invalide dans la ligne : " + line);
+            id = 0;
+        }
+
+        String name = parts[1].trim();
+        String email = parts[2].trim();
+
         List<Course> courses = new ArrayList<>();
-        if (parts.length == 4 && !parts[3].isEmpty()) {
+
+        // Vérifier s'il y a des cours dans le 4e champ
+        if (parts.length == 4 && !parts[3].trim().isEmpty()) {
             String[] courseParts = parts[3].split(";");
             for (String c : courseParts) {
                 String[] cg = c.split(":");
                 if (cg.length == 2) {
+                    String courseName = cg[0].trim();
                     double grade;
                     try {
-                        grade=Double.parseDouble(cg[1]);
-                    }catch (Exception e){
-                        grade=-1;
+                        grade = Double.parseDouble(cg[1].trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("⚠️ Note invalide pour le cours '" + courseName + "', valeur par défaut -1.");
+                        grade = -1;
                     }
-                    courses.add(new Course(cg[0],grade));
+                    courses.add(new Course(courseName, grade));
+                } else {
+                    System.out.println("⚠️ Format de cours invalide : " + c);
                 }
             }
         }
-        Student s=new Student(id,name,email);
+
+        // Créer l'objet étudiant
+        Student s = new Student(id, name, email);
         s.setCourses(courses);
+
         return s;
     }
 

@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class ConsoleMenu {
 
     StudentController controller=new StudentController();
-
+    Scanner sc = new Scanner(System.in);
     /**
      * Lance le menu principal.
      */
@@ -33,7 +33,7 @@ public class ConsoleMenu {
             System.out.println("===================================");
             System.out.print("Entrez votre choix : ");
 
-            choice = getIntInput();
+            choice = getIntInput(); // ✅ Méthode sécurisée pour récupérer un entier
 
             switch (choice) {
                 case 1 -> addStudent();
@@ -88,9 +88,17 @@ public class ConsoleMenu {
     // ------------------ UTILITAIRES ------------------
 
     private int getIntInput() {
-        Scanner sc = new Scanner(System.in);
-        return sc.nextInt();
+
+        while (true) {
+            String input = sc.nextLine().trim();
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.print("❌ Entrée invalide ! Veuillez entrer un nombre entier : ");
+            }
+        }
     }
+
 
     private double getDoubleInput() {
         return 0;
