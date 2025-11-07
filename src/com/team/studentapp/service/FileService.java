@@ -11,9 +11,21 @@ public class FileService implements  FileServiceInt {
 
     private String filePath;
 
-    public FileService() {
+    private static FileService instance;
+
+    private FileService() {
         this.filePath = "resources/students.csv";
     }
+
+    //synchronized pour garanti qu'en cas d'accès simultané par plusieurs threads,
+    // une seule instance de FileService est créée (thread-safe)
+    public static synchronized FileService getInstance() {
+        if (instance == null) {
+            instance = new FileService();
+        }
+        return instance;
+    }
+
 
     //  Sauvegarde un seul étudiant 
     public void saveStudent(Student student) {

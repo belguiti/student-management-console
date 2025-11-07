@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class StudentService {
     private List<Student>students=new ArrayList<>();
-    private FileService fileService=new FileService();
+    private FileService fileService=FileService.getInstance();
 
     public StudentService(){
         students=fileService.loadStudents();
