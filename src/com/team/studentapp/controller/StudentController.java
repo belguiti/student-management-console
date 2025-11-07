@@ -16,6 +16,7 @@ public class StudentController {
     public StudentController(){
         this.studentService=new StudentService();
     }
+
     public void addStudent() {
         System.out.print("Entrez l'Id de l'étudiant : ");
         int id = Integer.parseInt(sc.nextLine());
@@ -28,18 +29,21 @@ public class StudentController {
         studentService.addStudent(student);
         System.out.println("Étudiant ajouté avec succès !");
     }
+
     public void showAllStudents(){
         System.out.println("\n Liste des etudiants");
        for(Student s: studentService.getAllStudents()){
            System.out.println(s);
        }
     }
+
     public void updateStudent(){
         System.out.println("\n Entrez l'id de l'etudiant");
         int id=Integer.parseInt(sc.nextLine());
         studentService.updateStudent(sc,id);
 
     }
+
     public Student getStudentbyId(){
         Student foundStudent = null;
         int idStudent;
@@ -71,6 +75,7 @@ public class StudentController {
         }
 
     }
+
     public void deleteStudent(){
         System.out.println("\n Entrez l'id de l'etudiant a supprimer");
         int id=Integer.parseInt(sc.nextLine());
@@ -131,5 +136,24 @@ public class StudentController {
         studentService.addCourseToStudent(foundStudent, newCourses);
         System.out.println("\n Les cours ont été ajoutés avec succès à l'étudiant : " + foundStudent.getName());
     }
+
+    public void bestStudent(){
+        Student bestStudent=studentService.bestStudent();
+        System.out.println("Meilleur étudiant : " + (bestStudent != null ? bestStudent.getName() : "aucun") + " avec moyenne = " + bestStudent);
+    }
+
+    public void failingStudents() {
+        List<Student> failing = studentService.failingStudents();
+
+        if (failing.isEmpty()) {
+            System.out.println("Aucun étudiant en échec");
+        } else {
+            System.out.println("Liste des étudiants en échec :");
+            for (Student s : failing) {
+                System.out.println("- " + s.getName() + " | Moyenne : " + s.calculateAverage());
+            }
+        }
+    }
+
 
 }

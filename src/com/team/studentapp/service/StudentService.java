@@ -19,9 +19,11 @@ public class StudentService {
         students.add(student);
         fileService.saveStudent(student); // save in file
     }
+
     public List<Student>getAllStudents(){
        return  students;
     }
+
     public Student getStudentbyId(int id){
 
         for (Student student:students){
@@ -96,7 +98,32 @@ public class StudentService {
         }
     }
 
+    public Student bestStudent() {
 
+        if (students == null || students.isEmpty()) {
+            System.out.println("Aucun étudiant disponible");
+            return null;
+        }
+
+        Student best = null;
+        double bestAvg = -1; // On part de -1 pour gérer le cas où toutes les moyennes sont 0
+
+        for (Student s : students) {
+            double avg = calculateAVGStudent(s);
+            if (avg > bestAvg) {
+                bestAvg = avg;
+                best = s;
+            }
+        }
+
+        return best;
+    }
+
+    public List<Student> failingStudents() {
+        return students.stream()
+                .filter(student -> student.calculateAverage() < 10)
+                .toList();
+    }
 
 
 }

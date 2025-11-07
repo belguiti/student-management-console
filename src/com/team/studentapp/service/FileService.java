@@ -92,13 +92,16 @@ public class FileService implements  FileServiceInt {
 
     private Student csvToStudent(String line) {
         // Format : id,name,email,course1:grade1;course2:grade2
+
         String[] parts = line.split(",", 4);
+        System.out.println("parts : "+parts);
+        if(parts.length==0)
+            return null;
         String name = parts[1];
         String email = parts[2];
         int id;
         try{
             id = Integer.parseInt(parts[0]);
-
         }catch (Exception e){
             id=0;
         }
